@@ -30,10 +30,6 @@ requirements:
     - pytz
 
 test:
-  requires:
-    - pip
-  commands:
-    - pip check
   imports:
     - flask_restx
   requires:
