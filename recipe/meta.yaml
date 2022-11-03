@@ -21,7 +21,7 @@ requirements:
     - pip
     - wheel
   run:
-    - python >=3.6
+    - python
     - aniso8601 >=0.82
     - jsonschema
     - flask >=0.8,!=2.0.0
