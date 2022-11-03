@@ -1,6 +1,6 @@
 {% set name = "flask-restx" %}
-{% set version = "0.4.0" %}
-{% set sha256 = "8bdbfd8ad2949383c490b3b180481c0e9f70163230a5b567a56592c82f7c5cb0" %}
+{% set version = "1.0.3" %}
+{% set sha256 = "5fdacd23031d25ff4642f141a47a7fa877f07e3e261099ccc5ebc4fc254de84c" %}
 
 package:
   name: {{ name|lower }}
@@ -11,7 +11,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  noarch: python
+  skip: true  # [py<37]
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
 
