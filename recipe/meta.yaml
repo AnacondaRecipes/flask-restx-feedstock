@@ -29,6 +29,10 @@ requirements:
     - six >=1.3.0
 
 test:
+  requires:
+    - pip
+  commands:
+    - pip check
   imports:
     - flask_restx
 
