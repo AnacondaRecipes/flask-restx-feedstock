@@ -13,6 +13,7 @@ source:
 build:
   skip: true  # [py<37]
   number: 0
+  skip: True  # [py<36]
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
@@ -21,7 +22,7 @@ requirements:
     - pip
     - wheel
   run:
-    - python
+    - python >=3.6
     - aniso8601 >=0.82
     - jsonschema
     - flask >=0.8,!=2.0.0
@@ -35,6 +36,11 @@ test:
     - pip check
   imports:
     - flask_restx
+  requires:
+    - pip
+    - python <3.10
+  commands:
+    - pip check
 
 about:
   home: https://github.com/python-restx/flask-restx/
