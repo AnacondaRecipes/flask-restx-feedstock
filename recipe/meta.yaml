@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 0ae13d77e7d7e4dce513970cfa9db45364aef210e99022de26d2b73eb4dbced5
+  url: https://github.com/python-restx/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: c42e5ba15ce5ace1270e9f9129f94abdbf736c16ef77ec65c3b2841aa3c6ee95
 
 build:
   skip: true  # [py<39]
@@ -26,21 +26,51 @@ requirements:
     - jsonschema
     - flask >=0.8,!=2.0.0
     - werkzeug !=2.0.0
-    - pytz
     - importlib_resources
     - referencing
-    - importlib-resources
+
+# Following tests cannot run due to missing fixture provided by pytest-flask
+# E       fixture 'client' not found
+{% set ignore_tests = " --ignore=tests/legacy/test_api_legacy.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_api.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_errors.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_postman.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_reqparse.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_accept.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_apidoc.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_cors.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_fields_mask.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_logging.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_marshalling.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_namespace.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_payload.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_swagger.py" %}
+
+# E           RuntimeError: Working outside of application context.
 
 test:
+  source_files:
+    - tests
+    - setup.cfg
   imports:
     - flask_restx
+    - flask_restx.errors
+    - flask_restx.reqparse
+    - flask_restx.swagger
   requires:
     - pip
+    - pytest >=7.0.1
+    - faker >=2.0.0
+    - pytest-benchmark >=3.4.1
+    - pytest-mock
+    - pytest-cov
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests {{ ignore_tests }}
 
 about:
-  home: https://github.com/python-restx/flask-restx/
+  home: https://github.com/python-restx/flask-restx
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
@@ -50,8 +80,8 @@ about:
     Flask-RESTX encourages best practices with minimal setup. If you are familiar with Flask,
     Flask-RESTX should be easy to pick up. It provides a coherent collection of decorators and
     tools to describe your API and expose its documentation properly using Swagger.
-  doc_url: https://flask-restx.readthedocs.io/
-  dev_url: https://github.com/python-restx/flask-restx/
+  doc_url: https://flask-restx.readthedocs.io
+  dev_url: https://github.com/python-restx/flask-restx
 
 extra:
   recipe-maintainers:
