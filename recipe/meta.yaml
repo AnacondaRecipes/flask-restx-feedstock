@@ -29,13 +29,11 @@ requirements:
     - importlib_resources
     - referencing
 
-# Following tests cannot run due to missing fixture provided by pytest-flask
-# E       fixture 'client' not found
-{% set ignore_tests = " --ignore=tests/legacy/test_api_legacy.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/test_api.py" %}
+# Following tests cannot be run due to missing fixture provided by pytest-flask which is not available.
+# E fixture 'client' not found
+{% set ignore_tests = " --ignore=tests/test_api.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/legacy/test_api_legacy.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_errors.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/test_postman.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/test_reqparse.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_accept.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_apidoc.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_cors.py" %}
@@ -45,8 +43,9 @@ requirements:
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_namespace.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_payload.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=tests/test_swagger.py" %}
-
-# E           RuntimeError: Working outside of application context.
+# E RuntimeError: Working outside of application context.
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_postman.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/test_reqparse.py" %}
 
 test:
   source_files:
